@@ -1,0 +1,940 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dictionary | FabVocab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/base.css">
+  <link rel="stylesheet" href="../styles/dictionary.css">
+</head>
+
+<body>
+  <!-- Shared decorative icons -->
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-home" viewBox="0 0 24 24">
+      <path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/>
+    </symbol>
+
+    <symbol id="icon-dictionary" viewBox="0 0 24 24">
+      <path d="M12 5v16M12 5C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1Z"/>
+    </symbol>
+
+    <symbol id="icon-training" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="2"/>
+    </symbol>
+
+    <symbol id="icon-progress" viewBox="0 0 24 24">
+      <path d="m2 17 7-7 5 5 8-9 M16 6h6v6"/>
+    </symbol>
+
+    <symbol id="icon-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14"/>
+    </symbol>
+
+    <symbol id="icon-search" viewBox="0 0 24 24">
+      <circle cx="10" cy="10" r="6"/>
+      <path d="m15 15 6 6"/>
+    </symbol>
+
+    <symbol id="icon-chevron" viewBox="0 0 24 24">
+      <path d="m9 5 7 7-7 7"/>
+    </symbol>
+
+    <symbol id="icon-caret" viewBox="0 0 24 24">
+      <path d="m6 9 6 6 6-6"/>
+    </symbol>
+
+    <symbol id="icon-trash" viewBox="0 0 24 24">
+      <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>
+    </symbol>
+  </svg>
+
+  <!-- Shared mobile header; the title follows the active static screen -->
+  <header class="mobile-header">
+    <span class="mobile-title mobile-title-dictionary">Dictionary</span>
+    <span class="mobile-title mobile-title-new">New word</span>
+    <span class="mobile-title mobile-title-edit">Edit word</span>
+    <span class="profile-avatar">AB</span>
+  </header>
+
+  <!-- Bottom navigation on mobile; top navigation on desktop -->
+  <nav class="primary-navigation" aria-label="Main navigation">
+    <a class="brand" href="index.html">FabVocab.</a>
+
+    <div class="navigation-destinations">
+      <a class="navigation-item" href="index.html">
+        <svg class="interface-icon" aria-hidden="true"><use href="#icon-home"/></svg>
+        <span>Home</span>
+      </a>
+
+      <a class="navigation-item navigation-current" href="dictionary.html" aria-current="page">
+        <svg class="interface-icon" aria-hidden="true"><use href="#icon-dictionary"/></svg>
+        <span>Dictionary</span>
+      </a>
+
+      <a class="navigation-item" href="training.html">
+        <svg class="interface-icon" aria-hidden="true"><use href="#icon-training"/></svg>
+        <span>Training</span>
+      </a>
+
+      <a class="navigation-item" href="progress.html">
+        <svg class="interface-icon" aria-hidden="true"><use href="#icon-progress"/></svg>
+        <span>Progress</span>
+      </a>
+    </div>
+
+    <a class="add-word" href="#add-word" aria-label="Add a word">
+      <svg class="interface-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+      <span>+ Add word</span>
+    </a>
+  </nav>
+
+  <main class="dictionary-app">
+
+    <!-- 1. Populated dictionary -->
+    <section
+      class="dictionary-screen dictionary-list"
+      id="dictionary"
+      aria-labelledby="dictionary-heading"
+    >
+      <h1 class="sr-only" id="dictionary-heading">Dictionary</h1>
+
+      <div class="search-field">
+        <label class="sr-only" for="word-search">Search your words</label>
+        <svg class="interface-icon" aria-hidden="true"><use href="#icon-search"/></svg>
+        <input id="word-search" type="search" placeholder="Search your words...">
+      </div>
+
+      <div class="dictionary-filters">
+        <div class="filter-colors">
+          <span class="filter-label">Filter:</span>
+
+          <fieldset class="color-picker filter-picker">
+            <legend class="sr-only">Filter by color</legend>
+
+            <label class="color-option color-white" for="filter-white">
+              <input id="filter-white" type="radio" name="filter-color" aria-label="White">
+            </label>
+            <label class="color-option color-gray" for="filter-gray">
+              <input id="filter-gray" type="radio" name="filter-color" aria-label="Gray">
+            </label>
+            <label class="color-option color-black" for="filter-black">
+              <input id="filter-black" type="radio" name="filter-color" aria-label="Black">
+            </label>
+            <label class="color-option color-red" for="filter-red">
+              <input id="filter-red" type="radio" name="filter-color" aria-label="Red">
+            </label>
+            <label class="color-option color-yellow" for="filter-yellow">
+              <input id="filter-yellow" type="radio" name="filter-color" aria-label="Yellow">
+            </label>
+            <label class="color-option color-green" for="filter-green">
+              <input id="filter-green" type="radio" name="filter-color" aria-label="Green" checked>
+            </label>
+            <label class="color-option color-blue" for="filter-blue">
+              <input id="filter-blue" type="radio" name="filter-color" aria-label="Blue">
+            </label>
+            <label class="color-option color-pink" for="filter-pink">
+              <input id="filter-pink" type="radio" name="filter-color" aria-label="Pink">
+            </label>
+          </fieldset>
+        </div>
+
+        <fieldset class="filter-chips">
+          <legend class="sr-only">Part of speech filter</legend>
+          <label><input type="radio" name="speech-filter" checked>noun</label>
+          <label><input type="radio" name="speech-filter">verb</label>
+          <label><input type="radio" name="speech-filter">adj</label>
+          <label><input type="radio" name="speech-filter">adv</label>
+          <label><input type="radio" name="speech-filter">idiom</label>
+          <label><input type="radio" name="speech-filter">expression</label>
+        </fieldset>
+
+        <fieldset class="filter-chips status-filters">
+          <legend class="sr-only">Learning status filter</legend>
+          <label><input type="radio" name="status-filter">new</label>
+          <label><input type="radio" name="status-filter">learning</label>
+          <label><input type="radio" name="status-filter">mastered</label>
+          <label><input type="radio" name="status-filter">dusty</label>
+        </fieldset>
+
+        <button class="filter-reset" type="button">Reset</button>
+      </div>
+
+      <!-- Rows become cards on mobile via CSS -->
+      <table class="word-table">
+        <caption class="sr-only">Saved words</caption>
+        <thead class="word-table-header">
+          <tr>
+            <th scope="col">Color</th>
+            <th scope="col" aria-sort="none">
+              <button class="table-sort" type="button">
+                Word
+                <svg class="interface-icon" aria-hidden="true"><use href="#icon-caret"/></svg>
+              </button>
+            </th>
+            <th scope="col" aria-sort="none">
+              <button class="table-sort" type="button">
+                Part of speech
+                <svg class="interface-icon" aria-hidden="true"><use href="#icon-caret"/></svg>
+              </button>
+            </th>
+            <th scope="col" aria-sort="none">
+              <button class="table-sort" type="button">
+                Status
+                <svg class="interface-icon" aria-hidden="true"><use href="#icon-caret"/></svg>
+              </button>
+            </th>
+            <th scope="col" aria-sort="none">
+              <button class="table-sort" type="button">
+                Last practiced
+                <svg class="interface-icon" aria-hidden="true"><use href="#icon-caret"/></svg>
+              </button>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr class="word-row">
+            <td class="word-color">
+              <span class="word-dot color-pink" aria-label="Pink"></span>
+            </td>
+            <th class="word-title" scope="row">
+              <a class="word-link" href="#word-detail">serendipity</a>
+            </th>
+            <td class="word-speech">noun</td>
+            <td class="word-status">learning 3/5</td>
+            <td class="word-date"><time datetime="2026-10-05">05.10.2026</time></td>
+          </tr>
+
+          <tr class="word-row">
+            <td class="word-color">
+              <span class="word-dot color-blue" aria-label="Blue"></span>
+            </td>
+            <th class="word-title" scope="row">
+              <a class="word-link" href="#word-detail">lucid</a>
+            </th>
+            <td class="word-speech">adjective</td>
+            <td class="word-status">
+              <span class="status-badge status-dusty">dusty</span>
+            </td>
+            <td class="word-date"><time datetime="2026-08-07">07.08.2026</time></td>
+          </tr>
+
+          <tr class="word-row">
+            <td class="word-color">
+              <span class="word-dot color-green" aria-label="Green"></span>
+            </td>
+            <th class="word-title" scope="row">
+              <a class="word-link" href="#word-detail">crave</a>
+            </th>
+            <td class="word-speech">verb</td>
+            <td class="word-status">new</td>
+            <td class="word-date" aria-label="Not yet practiced">—</td>
+          </tr>
+
+          <tr class="word-row">
+            <td class="word-color">
+              <span class="word-dot color-yellow" aria-label="Yellow"></span>
+            </td>
+            <th class="word-title" scope="row">
+              <a class="word-link" href="#word-detail">quintessential</a>
+            </th>
+            <td class="word-speech">adjective</td>
+            <td class="word-status">learning 1/5</td>
+            <td class="word-date"><time datetime="2026-09-17">17.09.2026</time></td>
+          </tr>
+
+          <tr class="word-row">
+            <td class="word-color">
+              <span class="word-dot color-white" aria-label="White"></span>
+            </td>
+            <th class="word-title" scope="row">
+              <a class="word-link" href="#word-detail">solitude</a>
+            </th>
+            <td class="word-speech">noun</td>
+            <td class="word-status">
+              <span class="mobile-only">new</span>
+              <span class="status-badge status-mastered desktop-only">mastered</span>
+            </td>
+            <td class="word-date"><time datetime="2026-09-25">25.09.2026</time></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 2. No search results -->
+    <section
+      class="dictionary-screen dictionary-list empty-screen"
+      id="dictionary-empty"
+      aria-labelledby="empty-heading"
+    >
+      <h1 class="sr-only" id="empty-heading">Dictionary</h1>
+
+      <div class="search-field">
+        <label class="sr-only" for="empty-search">Search your words</label>
+        <svg class="interface-icon" aria-hidden="true"><use href="#icon-search"/></svg>
+        <input id="empty-search" type="search" value="floccinaucinihilipilification">
+      </div>
+
+      <div class="dictionary-filters">
+        <div class="filter-colors">
+          <span class="filter-label">Filter:</span>
+
+          <fieldset class="color-picker filter-picker">
+            <legend class="sr-only">Filter by color</legend>
+            <label class="color-option color-white" for="empty-white">
+              <input id="empty-white" type="radio" name="empty-color" aria-label="White">
+            </label>
+            <label class="color-option color-gray" for="empty-gray">
+              <input id="empty-gray" type="radio" name="empty-color" aria-label="Gray">
+            </label>
+            <label class="color-option color-black" for="empty-black">
+              <input id="empty-black" type="radio" name="empty-color" aria-label="Black">
+            </label>
+            <label class="color-option color-red" for="empty-red">
+              <input id="empty-red" type="radio" name="empty-color" aria-label="Red">
+            </label>
+            <label class="color-option color-yellow" for="empty-yellow">
+              <input id="empty-yellow" type="radio" name="empty-color" aria-label="Yellow">
+            </label>
+            <label class="color-option color-green" for="empty-green">
+              <input id="empty-green" type="radio" name="empty-color" aria-label="Green" checked>
+            </label>
+            <label class="color-option color-blue" for="empty-blue">
+              <input id="empty-blue" type="radio" name="empty-color" aria-label="Blue">
+            </label>
+            <label class="color-option color-pink" for="empty-pink">
+              <input id="empty-pink" type="radio" name="empty-color" aria-label="Pink">
+            </label>
+          </fieldset>
+        </div>
+
+        <fieldset class="filter-chips">
+          <legend class="sr-only">Part of speech filter</legend>
+          <label><input type="radio" name="empty-speech" checked>noun</label>
+          <label><input type="radio" name="empty-speech">verb</label>
+          <label><input type="radio" name="empty-speech">adj</label>
+          <label><input type="radio" name="empty-speech">adv</label>
+          <label><input type="radio" name="empty-speech">idiom</label>
+          <label><input type="radio" name="empty-speech">expression</label>
+        </fieldset>
+
+        <fieldset class="filter-chips status-filters">
+          <legend class="sr-only">Learning status filter</legend>
+          <label class="desktop-only"><input type="radio" name="empty-status">All</label>
+          <label><input type="radio" name="empty-status">new</label>
+          <label><input type="radio" name="empty-status">learning</label>
+          <label><input type="radio" name="empty-status">mastered</label>
+          <label><input type="radio" name="empty-status">dusty</label>
+        </fieldset>
+
+        <button class="filter-reset" type="button">Reset</button>
+      </div>
+
+      <div class="empty-message">
+        <span class="empty-icon">
+          <svg class="interface-icon" aria-hidden="true"><use href="#icon-search"/></svg>
+        </span>
+        <h2>Nope, nothing here.</h2>
+        <p>Did you make that word up?</p>
+      </div>
+    </section>
+
+    <!-- 3. Add word -->
+    <section
+      class="dictionary-screen form-screen"
+      id="add-word"
+      aria-labelledby="add-heading"
+    >
+      <h1 class="form-heading" id="add-heading">New word</h1>
+
+      <form class="word-form" aria-label="New word (static preview)">
+        <div class="form-field">
+          <label for="add-text">Word *</label>
+          <input id="add-text" name="word" placeholder="What is it?" required>
+        </div>
+
+        <div class="form-field">
+          <label for="add-speech">Part of speech *</label>
+          <select id="add-speech" name="speech" required>
+            <option>noun</option>
+            <option selected>verb</option>
+            <option>adjective</option>
+            <option>adverb</option>
+            <option>idiom</option>
+            <option>expression</option>
+          </select>
+        </div>
+
+        <fieldset class="form-field">
+          <legend>Color *</legend>
+          <div class="color-picker">
+            <label class="color-option color-white" for="add-white">
+              <input id="add-white" type="radio" name="add-color" aria-label="White" required>
+            </label>
+            <label class="color-option color-gray" for="add-gray">
+              <input id="add-gray" type="radio" name="add-color" aria-label="Gray" required>
+            </label>
+            <label class="color-option color-black" for="add-black">
+              <input id="add-black" type="radio" name="add-color" aria-label="Black" required>
+            </label>
+            <label class="color-option color-red" for="add-red">
+              <input id="add-red" type="radio" name="add-color" aria-label="Red" required>
+            </label>
+            <label class="color-option color-yellow" for="add-yellow">
+              <input id="add-yellow" type="radio" name="add-color" aria-label="Yellow" required>
+            </label>
+            <label class="color-option color-green" for="add-green">
+              <input id="add-green" type="radio" name="add-color" aria-label="Green" required>
+            </label>
+            <label class="color-option color-blue" for="add-blue">
+              <input id="add-blue" type="radio" name="add-color" aria-label="Blue" required>
+            </label>
+            <label class="color-option color-pink" for="add-pink">
+              <input id="add-pink" type="radio" name="add-color" aria-label="Pink" required>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-field">
+          <label for="add-definition">Definition *</label>
+          <textarea id="add-definition" name="definition" placeholder="What does it mean?" required></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="add-translation">Translation</label>
+          <input id="add-translation" name="translation" placeholder="What does it mean in your lang?">
+        </div>
+
+        <div class="form-field">
+          <label for="add-example">Example</label>
+          <input id="add-example" name="example" placeholder="Later is fine">
+        </div>
+
+        <div class="form-actions">
+          <button class="button button-primary" type="button">Lock it in</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 4. Add word validation errors -->
+    <section
+      class="dictionary-screen form-screen"
+      id="add-word-errors"
+      aria-labelledby="errors-heading"
+    >
+      <h1 class="form-heading" id="errors-heading">New word</h1>
+
+      <form class="word-form" aria-label="New word with errors (static preview)">
+        <div class="form-field">
+          <label for="error-text">Word *</label>
+          <input
+            id="error-text"
+            name="word"
+            value="lucid"
+            required
+            aria-invalid="true"
+            aria-describedby="duplicate-error"
+          >
+          <p class="field-error" id="duplicate-error">
+            Slow down — this one already lives in your dictionary.
+          </p>
+        </div>
+
+        <div class="form-field">
+          <label for="error-speech">Part of speech *</label>
+          <select id="error-speech" name="speech" required>
+            <option selected>noun</option>
+            <option>verb</option>
+            <option>adjective</option>
+            <option>adverb</option>
+            <option>idiom</option>
+            <option>expression</option>
+          </select>
+        </div>
+
+        <fieldset class="form-field color-error" aria-describedby="color-error">
+          <legend>Color *</legend>
+          <div class="color-picker">
+            <label class="color-option color-white" for="error-white">
+              <input id="error-white" type="radio" name="error-color" aria-label="White" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+            <label class="color-option color-gray" for="error-gray">
+              <input id="error-gray" type="radio" name="error-color" aria-label="Gray" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+            <label class="color-option color-black" for="error-black">
+              <input id="error-black" type="radio" name="error-color" aria-label="Black" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+            <label class="color-option color-red" for="error-red">
+              <input id="error-red" type="radio" name="error-color" aria-label="Red" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+            <label class="color-option color-yellow" for="error-yellow">
+              <input id="error-yellow" type="radio" name="error-color" aria-label="Yellow" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+            <label class="color-option color-green" for="error-green">
+              <input id="error-green" type="radio" name="error-color" aria-label="Green" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+            <label class="color-option color-blue" for="error-blue">
+              <input id="error-blue" type="radio" name="error-color" aria-label="Blue" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+            <label class="color-option color-pink" for="error-pink">
+              <input id="error-pink" type="radio" name="error-color" aria-label="Pink" required aria-invalid="true" aria-describedby="color-error">
+            </label>
+          </div>
+          <p class="field-error" id="color-error">Pick a color — any color.</p>
+        </fieldset>
+
+        <div class="form-field">
+          <label for="error-definition">Definition *</label>
+          <textarea
+            id="error-definition"
+            name="definition"
+            placeholder="What does it mean?"
+            required
+            aria-invalid="true"
+            aria-describedby="definition-error"
+          ></textarea>
+          <p class="field-error" id="definition-error">This one's required.</p>
+        </div>
+
+        <div class="form-field">
+          <label for="error-translation">Translation</label>
+          <input id="error-translation" name="translation" placeholder="What does it mean in your lang?">
+        </div>
+
+        <div class="form-field">
+          <label for="error-example">Example</label>
+          <input id="error-example" name="example" placeholder="Later is fine">
+        </div>
+
+        <div class="form-actions">
+          <button class="button button-primary" type="button" disabled>Lock it in</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 5. Add word success -->
+    <section
+      class="dictionary-screen form-screen success-screen"
+      id="add-word-success"
+      aria-labelledby="success-heading"
+    >
+      <h1 class="form-heading" id="success-heading">New word</h1>
+
+      <form class="word-form" aria-label="New word after success (static preview)">
+        <div class="form-field">
+          <label for="success-text">Word *</label>
+          <input id="success-text" name="word" placeholder="What is it?" required>
+        </div>
+
+        <div class="form-field">
+          <label for="success-speech">Part of speech *</label>
+          <select id="success-speech" name="speech" required>
+            <option selected>noun</option>
+            <option>verb</option>
+            <option>adjective</option>
+            <option>adverb</option>
+            <option>idiom</option>
+            <option>expression</option>
+          </select>
+        </div>
+
+        <fieldset class="form-field">
+          <legend>Color *</legend>
+          <div class="color-picker">
+            <label class="color-option color-white" for="success-white">
+              <input id="success-white" type="radio" name="success-color" aria-label="White" required>
+            </label>
+            <label class="color-option color-gray" for="success-gray">
+              <input id="success-gray" type="radio" name="success-color" aria-label="Gray" required>
+            </label>
+            <label class="color-option color-black" for="success-black">
+              <input id="success-black" type="radio" name="success-color" aria-label="Black" required>
+            </label>
+            <label class="color-option color-red" for="success-red">
+              <input id="success-red" type="radio" name="success-color" aria-label="Red" required>
+            </label>
+            <label class="color-option color-yellow" for="success-yellow">
+              <input id="success-yellow" type="radio" name="success-color" aria-label="Yellow" required>
+            </label>
+            <label class="color-option color-green" for="success-green">
+              <input id="success-green" type="radio" name="success-color" aria-label="Green" required>
+            </label>
+            <label class="color-option color-blue" for="success-blue">
+              <input id="success-blue" type="radio" name="success-color" aria-label="Blue" required>
+            </label>
+            <label class="color-option color-pink" for="success-pink">
+              <input id="success-pink" type="radio" name="success-color" aria-label="Pink" required>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-field">
+          <label for="success-definition">Definition *</label>
+          <textarea id="success-definition" name="definition" placeholder="What does it mean?" required></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="success-translation">Translation</label>
+          <input id="success-translation" name="translation" placeholder="What does it mean in your lang?">
+        </div>
+
+        <div class="form-field">
+          <label for="success-example">Example</label>
+          <input id="success-example" name="example" placeholder="Later is fine">
+        </div>
+
+        <div class="form-actions">
+          <button class="button button-primary" type="button">Lock it in</button>
+        </div>
+      </form>
+
+      <aside class="success-toast" role="status">
+        <span>Locked in. Next victim?</span>
+        <button type="button" aria-label="Dismiss notification (unimplemented)">×</button>
+      </aside>
+    </section>
+
+    <!-- 6. Word details -->
+    <section
+      class="dictionary-screen detail-screen"
+      id="word-detail"
+      aria-labelledby="detail-heading"
+    >
+      <div class="detail-controls">
+        <a class="button button-secondary button-compact back-link" href="#dictionary">
+          <svg class="interface-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
+          Back
+        </a>
+
+        <a class="button button-secondary button-compact edit-link" href="#edit-word">Edit word</a>
+
+        <a class="button button-secondary button-compact delete-link" href="#delete-word" aria-label="Delete word">
+          <svg class="interface-icon" aria-hidden="true"><use href="#icon-trash"/></svg>
+        </a>
+      </div>
+
+      <div class="detail-layout">
+        <header class="word-card color-pink">
+          <h1 id="detail-heading">serendipity</h1>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </header>
+
+        <div class="detail-information">
+          <section class="info-card">
+            <h2>Definition</h2>
+            <p>the occurrence of an unexpected, happy discovery of something beautiful or valuable.</p>
+          </section>
+
+          <section class="info-card">
+            <h2>Translation</h2>
+            <p lang="ru">счастливая способность делать неожиданные открытия</p>
+          </section>
+
+          <section class="info-card">
+            <h2>Examples</h2>
+            <p>We found this amazing little restaurant by pure serendipity.</p>
+
+            <div class="example-field">
+              <label class="sr-only" for="another-example">Add another example</label>
+              <input id="another-example" placeholder="Add another example">
+              <button type="button" aria-label="Add example (unimplemented)">
+                <svg class="interface-icon" aria-hidden="true"><use href="#icon-plus"/></svg>
+              </button>
+            </div>
+          </section>
+
+          <section class="info-card practice-card">
+            <h2>Practice progress</h2>
+
+            <div class="practice-heading">
+              <strong>Learning</strong>
+              <span>3 / 5 Points</span>
+            </div>
+
+            <meter class="sr-only" min="0" max="5" value="3" aria-label="Practice progress">
+              3 out of 5
+            </meter>
+
+            <div class="practice-bars" aria-hidden="true">
+              <span class="earned"></span>
+              <span class="earned"></span>
+              <span class="earned"></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <dl class="practice-stats">
+              <div>
+                <dt>Times practiced</dt>
+                <dd>14</dd>
+              </div>
+              <div>
+                <dt>Success rate</dt>
+                <dd>64%</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Edit word -->
+    <section
+      class="dictionary-screen form-screen"
+      id="edit-word"
+      aria-labelledby="edit-heading"
+    >
+      <h1 class="form-heading" id="edit-heading">Edit word</h1>
+
+      <form class="word-form" aria-label="Edit word (static preview)">
+        <div class="form-field">
+          <label for="edit-text">Word *</label>
+          <input id="edit-text" name="word" value="serendipity" required>
+        </div>
+
+        <div class="form-field">
+          <label for="edit-speech">Part of speech *</label>
+          <select id="edit-speech" name="speech" required>
+            <option selected>noun</option>
+            <option>verb</option>
+            <option>adjective</option>
+            <option>adverb</option>
+            <option>idiom</option>
+            <option>expression</option>
+          </select>
+        </div>
+
+        <fieldset class="form-field">
+          <legend>Color *</legend>
+          <div class="color-picker">
+            <label class="color-option color-white" for="edit-white">
+              <input id="edit-white" type="radio" name="edit-color" aria-label="White" required>
+            </label>
+            <label class="color-option color-gray" for="edit-gray">
+              <input id="edit-gray" type="radio" name="edit-color" aria-label="Gray" required>
+            </label>
+            <label class="color-option color-black" for="edit-black">
+              <input id="edit-black" type="radio" name="edit-color" aria-label="Black" required>
+            </label>
+            <label class="color-option color-red" for="edit-red">
+              <input id="edit-red" type="radio" name="edit-color" aria-label="Red" required>
+            </label>
+            <label class="color-option color-yellow" for="edit-yellow">
+              <input id="edit-yellow" type="radio" name="edit-color" aria-label="Yellow" required>
+            </label>
+            <label class="color-option color-green" for="edit-green">
+              <input id="edit-green" type="radio" name="edit-color" aria-label="Green" required>
+            </label>
+            <label class="color-option color-blue" for="edit-blue">
+              <input id="edit-blue" type="radio" name="edit-color" aria-label="Blue" required>
+            </label>
+            <label class="color-option color-pink" for="edit-pink">
+              <input id="edit-pink" type="radio" name="edit-color" aria-label="Pink" required checked>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-field">
+          <label for="edit-definition">Definition *</label>
+          <textarea id="edit-definition" name="definition" required>the occurrence of an unexpected, happy discovery</textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="edit-translation">Translation</label>
+          <input id="edit-translation" name="translation" placeholder="What does it mean in your lang?">
+        </div>
+
+        <div class="form-field">
+          <label for="edit-example">Example</label>
+          <input id="edit-example" name="example" placeholder="Later is fine">
+        </div>
+
+        <div class="form-actions">
+          <a class="button button-delete" href="#delete-word">Delete word</a>
+          <button class="button button-primary" type="button">Save</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 8. Deletion confirmation — static dialog preview -->
+    <section
+      class="dictionary-screen form-screen delete-screen"
+      id="delete-word"
+      aria-label="Delete word confirmation"
+    >
+      <div class="delete-background" inert>
+        <h1 class="form-heading">Edit word</h1>
+
+        <form class="word-form" aria-label="Edit word background">
+          <div class="form-field">
+            <label for="delete-text">Word *</label>
+            <input id="delete-text" value="serendipity" required>
+          </div>
+
+          <div class="form-field">
+            <label for="delete-speech">Part of speech *</label>
+            <select id="delete-speech" required>
+              <option selected>noun</option>
+              <option>verb</option>
+              <option>adjective</option>
+              <option>adverb</option>
+              <option>idiom</option>
+              <option>expression</option>
+            </select>
+          </div>
+
+          <fieldset class="form-field">
+            <legend>Color *</legend>
+            <div class="color-picker">
+              <label class="color-option color-white" for="delete-white">
+                <input id="delete-white" type="radio" name="delete-color" aria-label="White" required>
+              </label>
+              <label class="color-option color-gray" for="delete-gray">
+                <input id="delete-gray" type="radio" name="delete-color" aria-label="Gray" required>
+              </label>
+              <label class="color-option color-black" for="delete-black">
+                <input id="delete-black" type="radio" name="delete-color" aria-label="Black" required>
+              </label>
+              <label class="color-option color-red" for="delete-red">
+                <input id="delete-red" type="radio" name="delete-color" aria-label="Red" required>
+              </label>
+              <label class="color-option color-yellow" for="delete-yellow">
+                <input id="delete-yellow" type="radio" name="delete-color" aria-label="Yellow" required>
+              </label>
+              <label class="color-option color-green" for="delete-green">
+                <input id="delete-green" type="radio" name="delete-color" aria-label="Green" required>
+              </label>
+              <label class="color-option color-blue" for="delete-blue">
+                <input id="delete-blue" type="radio" name="delete-color" aria-label="Blue" required>
+              </label>
+              <label class="color-option color-pink" for="delete-pink">
+                <input id="delete-pink" type="radio" name="delete-color" aria-label="Pink" required checked>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form-field">
+            <label for="delete-definition">Definition *</label>
+            <textarea id="delete-definition" required>the occurrence of an unexpected, happy discovery</textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="delete-translation">Translation</label>
+            <input id="delete-translation" placeholder="What does it mean in your lang?">
+          </div>
+
+          <div class="form-field">
+            <label for="delete-example">Example</label>
+            <input id="delete-example" placeholder="Later is fine">
+          </div>
+
+          <div class="form-actions">
+            <button class="button button-delete" type="button">Delete word</button>
+            <button class="button button-primary" type="button">Save</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="delete-overlay">
+        <div
+          class="delete-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="delete-heading"
+          aria-describedby="delete-description"
+        >
+          <h2 id="delete-heading">Sure?</h2>
+          <p id="delete-description">It's been through a lot with you.</p>
+          <button class="button button-danger" type="button">Delete</button>
+          <a class="button button-secondary" href="#edit-word">Keep it</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Supplied word color variants -->
+    <section
+      class="dictionary-screen palette-screen"
+      id="word-colors"
+      aria-labelledby="palette-heading"
+    >
+      <h1 class="sr-only" id="palette-heading">Word color palette</h1>
+
+      <div class="palette-grid">
+        <article class="word-card color-white">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+
+        <article class="word-card color-gray word-card-dark">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+
+        <article class="word-card color-black word-card-dark">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+
+        <article class="word-card color-red word-card-dark">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+
+        <article class="word-card color-yellow">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+
+        <article class="word-card color-green word-card-dark">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+
+        <article class="word-card color-blue word-card-dark">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+
+        <article class="word-card color-pink">
+          <h2>serendipity</h2>
+          <div class="word-card-meta">
+            <span class="speech-badge">noun</span>
+            <time datetime="2026-01-12">Added Jan 12, 2026</time>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

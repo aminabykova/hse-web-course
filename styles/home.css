@@ -1,0 +1,298 @@
+/* Home screen styles */
+
+.home-content {
+  max-width: 648px;
+  margin-inline: auto;
+  padding:
+    var(--space-md)
+    var(--page-gutter)
+    var(--navigation-clearance);
+}
+
+/* Static screen selection via :target anchors */
+
+.home-screen {
+  display: none;
+  scroll-margin-top: 110px;
+}
+
+.home-dashboard:first-child {
+  display: block;
+}
+
+.home-content:has(.home-screen:target) .home-screen {
+  display: none;
+}
+
+.home-content:has(.home-screen:target) .home-screen:target {
+  display: block;
+}
+
+.home-greeting {
+  max-width: 230px;
+  margin-bottom: var(--space-md);
+
+  font-size: 22px;
+  font-weight: var(--font-weight-black);
+  line-height: 1.2;
+}
+
+.home-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+}
+
+/* Vocabulary statistics */
+
+.vocabulary-statistics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
+  padding-bottom: 6px;
+}
+
+.vocabulary-stat {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  gap: var(--space-2xs);
+
+  min-height: 76px;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+}
+
+.stat-label {
+  color: var(--gray);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: var(--font-weight-black);
+  line-height: 32px;
+}
+
+.stat-learning {
+  background: var(--yellow);
+}
+
+.stat-mastered {
+  background: var(--green);
+}
+
+.stat-learning .stat-label,
+.stat-mastered .stat-label {
+  color: var(--ink);
+}
+
+/* Practice reminder and training requirement */
+
+.practice-reminder,
+.training-requirement {
+  font-weight: var(--font-weight-bold);
+  line-height: 18px;
+}
+
+.training-requirement {
+  color: var(--gray);
+}
+
+/* Today's pick */
+
+.todays-pick {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+
+  min-height: 166px;
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+  background: var(--pink);
+}
+
+.pick-eyebrow {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-black);
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+.pick-entry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.pick-word {
+  font-size: 24px;
+  font-weight: var(--font-weight-black);
+  line-height: 32px;
+  overflow-wrap: anywhere;
+}
+
+.pick-word a:hover {
+  text-decoration: underline;
+}
+
+.pick-definition {
+  font-size: var(--font-size-sm);
+  line-height: 1.4;
+}
+
+.pick-part-of-speech {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  line-height: 18px;
+}
+
+/* Actions */
+
+.vocabulary-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.action-first {
+  width: 100%;
+  padding-inline: var(--space-xl);
+}
+
+/* Empty home */
+
+.home-content:has(.home-empty:target) {
+  max-width: none;
+  padding: 0;
+}
+
+.home-empty {
+  min-height: calc(100vh - 178px);
+  min-height: calc(100dvh - 178px);
+  margin-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  padding: var(--space-md) var(--page-gutter);
+}
+
+.home-content:has(.home-empty:target) .home-empty:target {
+  display: grid;
+  place-items: center;
+}
+
+/* Small phones */
+
+@media (max-width: 359px) {
+  .vocabulary-actions .button {
+    padding-inline: var(--space-xs);
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* Tablets */
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .home-greeting {
+    max-width: none;
+  }
+
+  .vocabulary-stat {
+    min-height: 92px;
+    padding: var(--space-lg);
+  }
+
+  .todays-pick {
+    min-height: 190px;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 900px) {
+  .home-content {
+    max-width: 1032px;
+    padding-top: 56px;
+    padding-bottom: 64px;
+  }
+
+  .home-screen {
+    scroll-margin-top: 142px;
+  }
+
+  .home-greeting {
+    max-width: none;
+    margin-bottom: var(--space-2xl);
+    font-size: 24px;
+    line-height: 28px;
+  }
+
+  .home-overview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--space-lg);
+  }
+
+  .vocabulary-statistics {
+    grid-column: 1;
+    grid-row: 1;
+    padding-bottom: 0;
+  }
+
+  .vocabulary-stat {
+    min-height: 100px;
+    padding: var(--space-xl);
+  }
+
+  .practice-reminder,
+  .training-requirement {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .reminder-continuation {
+    display: block;
+  }
+
+  .vocabulary-actions {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .todays-pick {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    min-height: 320px;
+  }
+
+  .pick-eyebrow {
+    font-size: var(--font-size-sm);
+    line-height: 16px;
+  }
+
+  .pick-word {
+    font-size: 32px;
+    line-height: 42px;
+  }
+
+  .pick-definition {
+    font-size: var(--font-size-md);
+  }
+
+  .pick-part-of-speech {
+    font-size: var(--font-size-md);
+    line-height: 18px;
+  }
+
+  .home-empty {
+    min-height: 696px;
+    margin-bottom: 0;
+    padding: var(--space-xl) var(--page-gutter);
+  }
+
+  .action-first {
+    width: auto;
+  }
+}
