@@ -4,11 +4,8 @@
   --selected-description: #bcbcbc;
 }
 
-/* The color hint recolors the whole screen */
-
-body:has(#quiz-hint:target) {
-  background: var(--pink);
-}
+/* The color hint recolors the whole screen — set inline by training.js
+   to the correct word's color (see applyHintBackground). */
 
 /* Visually hidden native controls kept in the accessibility tree */
 
@@ -29,24 +26,7 @@ label:has(input:focus-visible) {
   outline-offset: 3px;
 }
 
-/* Mobile header title follows the active static screen */
-
-.quiz-title,
-.results-title {
-  display: none;
-}
-
-body:has(.quiz-screen:target) .setup-title,
-body:has(.results-screen:target) .setup-title {
-  display: none;
-}
-
-body:has(.quiz-screen:target) .quiz-title,
-body:has(.results-screen:target) .results-title {
-  display: inline;
-}
-
-/* Static screen selection via :target anchors */
+/* Screen selection driven by training.js (state, not :target) */
 
 .training-content {
   width: 100%;
@@ -63,15 +43,7 @@ body:has(.results-screen:target) .results-title {
   scroll-margin-top: 110px;
 }
 
-body:not(:has(.training-screen:target)) #training-setup {
-  display: block;
-}
-
-body:has(.training-screen:target) .training-screen {
-  display: none;
-}
-
-body:has(.training-screen:target) .training-screen:target {
+.training-screen.is-active {
   display: block;
 }
 
@@ -222,6 +194,12 @@ body:has(.training-screen:target) .training-screen:target {
   color: var(--gray);
 }
 
+.setup-note {
+  color: var(--gray);
+  font-weight: var(--font-weight-bold);
+  line-height: 18px;
+}
+
 /* Quiz progress */
 
 .quiz-progress {
@@ -248,7 +226,7 @@ body:has(.training-screen:target) .training-screen:target {
   background: var(--muted);
 }
 
-.progress-segments i:nth-child(-n+3) {
+.progress-segments i.filled {
   background: var(--ink);
 }
 

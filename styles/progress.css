@@ -13,7 +13,7 @@
   --january-mastered: 56px;
 }
 
-/* Static screen selection via :target anchors */
+/* Screen selection driven by progress.js (state, not :target) */
 
 .progress-content {
   max-width: 648px;
@@ -30,15 +30,10 @@
 }
 
 .progress-populated {
-  display: grid;
   gap: var(--panel-gap);
 }
 
-.progress-content:has(.progress-screen:target) .progress-screen {
-  display: none;
-}
-
-.progress-content:has(.progress-screen:target) .progress-screen:target {
+.progress-populated.is-active {
   display: grid;
 }
 
@@ -403,7 +398,7 @@
 
 /* Empty progress */
 
-.progress-content:has(.progress-empty:target) {
+.progress-content.is-empty {
   max-width: none;
   padding: 0;
 }
@@ -415,7 +410,7 @@
   padding: var(--space-md) var(--page-gutter);
 }
 
-.progress-content:has(.progress-empty:target) .progress-empty:target {
+.progress-empty.is-active {
   display: grid;
   place-items: center;
 }

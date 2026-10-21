@@ -7,49 +7,24 @@
     calc(112px + env(safe-area-inset-bottom, 0px));
 }
 
-/* Static screen selection via :target anchors */
+/* Screen selection driven by dictionary.js (state, not :target) */
 
 .dictionary-screen {
   display: none;
   scroll-margin-top: 106px;
 }
 
-.dictionary-list:first-child {
+.dictionary-screen.is-active {
   display: block;
-}
-
-.dictionary-app:has(.dictionary-screen:target) .dictionary-screen {
-  display: none;
-}
-
-.dictionary-app:has(.dictionary-screen:target) .dictionary-screen:target {
-  display: block;
-}
-
-/* Mobile header title follows the active static screen */
-
-.mobile-title-new,
-.mobile-title-edit {
-  display: none;
-}
-
-body:has(:is(#add-word, #add-word-errors, #add-word-success):target) .mobile-title-dictionary,
-body:has(:is(#edit-word, #delete-word):target) .mobile-title-dictionary {
-  display: none;
-}
-
-body:has(:is(#add-word, #add-word-errors, #add-word-success):target) .mobile-title-new,
-body:has(:is(#edit-word, #delete-word):target) .mobile-title-edit {
-  display: inline;
 }
 
 /* Word detail takes over the whole mobile screen */
 
-body:has(#word-detail:target) .mobile-header {
+body.screen-detail .mobile-header {
   display: none;
 }
 
-body:has(#word-detail:target) .dictionary-app {
+body.screen-detail .dictionary-app {
   padding-top: 50px;
 }
 
@@ -735,7 +710,7 @@ textarea::placeholder {
   line-height: var(--font-size-lg);
 }
 
-body:has(#delete-word:target) :is(.primary-navigation, .mobile-header) {
+body.modal-open :is(.primary-navigation, .mobile-header) {
   pointer-events: none;
 }
 
@@ -782,7 +757,7 @@ body:has(#delete-word:target) :is(.primary-navigation, .mobile-header) {
 
 @media (min-width: 900px) {
   .dictionary-app,
-  body:has(#word-detail:target) .dictionary-app {
+  body.screen-detail .dictionary-app {
     padding: var(--space-sm) var(--space-lg) 40px;
   }
 
@@ -1038,5 +1013,58 @@ body:has(#delete-word:target) :is(.primary-navigation, .mobile-header) {
 
   .palette-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Dynamic additions (JavaScript-driven states) */
+
+/* No-results note inside the live list */
+.dictionary-empty-note {
+  min-height: 262px;
+  padding: 40px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--space-xl);
+}
+
+.dictionary-empty-note h2 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-black);
+}
+
+.dictionary-empty-note p {
+  font-size: var(--font-size-md);
+}
+
+/* Placeholder copy for empty optional fields on the detail screen */
+.info-card p.ghost {
+  color: var(--gray);
+}
+
+/* Toast + delete modal are toggled via class rather than :target */
+.success-toast {
+  display: none;
+}
+
+.success-toast.is-visible {
+  display: flex;
+}
+
+.delete-overlay {
+  display: none;
+}
+
+.delete-overlay.is-open {
+  display: grid;
+  place-items: center;
+}
+
+@media (min-width: 900px) {
+  .dictionary-empty-note {
+    min-height: 380px;
   }
 }

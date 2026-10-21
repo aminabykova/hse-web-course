@@ -13,12 +13,6 @@
 </head>
 
 <body>
-  <!-- Static previews: no quiz engine or grading. -->
-  <!-- Optional correct feedback: Nailed it! / Easy. / Yep. / Chef's kiss. -->
-  <!-- Optional wrong feedback:
-    Ouch. It happens — this one will stick, promise. / Not this time. / So close!
-  -->
-
   <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="icon-home" viewBox="0 0 24 24">
       <path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/>
@@ -47,13 +41,9 @@
     </symbol>
   </svg>
 
-  <!-- Mobile header; the title follows the active static screen -->
+  <!-- Mobile header; the title is updated by training.js -->
   <header class="mobile-header">
-    <p class="mobile-title">
-      <span class="setup-title">Quiz setup</span>
-      <span class="quiz-title">Quiz</span>
-      <span class="results-title">Training complete</span>
-    </p>
+    <p class="mobile-title" id="training-mobile-title">Quiz setup</p>
     <span class="profile-avatar">AB</span>
   </header>
 
@@ -103,36 +93,21 @@
     >
       <h1 id="setup-heading">Quiz setup</h1>
 
-      <form class="setup-form">
+      <form class="setup-form" id="setup-form">
         <fieldset>
           <legend>Training direction</legend>
 
           <div class="setup-options">
             <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="setup-direction"
-                value="word"
-                checked
-              >
+              <input class="native-radio" type="radio" name="setup-direction" value="word" checked>
               <span class="choice-title">Word → Definition</span>
-              <span class="choice-description">
-                See the word, guess the correct meaning.
-              </span>
+              <span class="choice-description">See the word, guess the correct meaning.</span>
             </label>
 
             <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="setup-direction"
-                value="definition"
-              >
+              <input class="native-radio" type="radio" name="setup-direction" value="definition">
               <span class="choice-title">Definition → Word</span>
-              <span class="choice-description">
-                Reverse recall. Harder, but highly rewarding.
-              </span>
+              <span class="choice-description">Reverse recall. Harder, but highly rewarding.</span>
             </label>
           </div>
         </fieldset>
@@ -142,26 +117,15 @@
 
           <div class="setup-options">
             <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="setup-difficulty"
-                value="regular"
-                checked
-              >
+              <input class="native-radio" type="radio" name="setup-difficulty" value="regular" checked>
               <span class="choice-title">Regular mode</span>
               <span class="choice-description">Options in different colors</span>
             </label>
 
             <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="setup-difficulty"
-                value="hard"
-              >
+              <input class="native-radio" type="radio" name="setup-difficulty" value="hard">
               <span class="choice-title">Hard mode</span>
-              <span class="choice-description">Same color chaos</span>
+              <span class="choice-description" id="hard-mode-note">Same color chaos</span>
             </label>
           </div>
         </fieldset>
@@ -186,449 +150,36 @@
             </div>
           </fieldset>
 
-          <a
-            href="#quiz-question"
-            class="button button-primary setup-start"
-            aria-label="Let’s go — static quiz preview"
-          >
-            Let's go
-          </a>
-        </div>
-      </form>
-    </section>
-
-    <!-- 2. Hard mode unavailable -->
-    <section
-      id="training-unavailable"
-      class="training-screen setup-screen"
-      aria-labelledby="unavailable-heading"
-    >
-      <h1 id="unavailable-heading">Quiz setup</h1>
-
-      <form class="setup-form">
-        <fieldset>
-          <legend>Training direction</legend>
-
-          <div class="setup-options">
-            <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="unavailable-direction"
-                value="word"
-                checked
-              >
-              <span class="choice-title">Word → Definition</span>
-              <span class="choice-description">
-                See the word, guess the correct meaning.
-              </span>
-            </label>
-
-            <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="unavailable-direction"
-                value="definition"
-              >
-              <span class="choice-title">Definition → Word</span>
-              <span class="choice-description">
-                Reverse recall. Harder, but highly rewarding.
-              </span>
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend>Difficulty Mode</legend>
-
-          <div class="setup-options">
-            <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="unavailable-difficulty"
-                value="regular"
-                checked
-              >
-              <span class="choice-title">Regular mode</span>
-              <span class="choice-description">Options in different colors</span>
-            </label>
-
-            <label class="setup-choice">
-              <input
-                class="native-radio"
-                type="radio"
-                name="unavailable-difficulty"
-                value="hard"
-                disabled
-              >
-              <span class="choice-title">Hard mode</span>
-              <span class="choice-description">
-                Not enough words of one color (need 4).
-              </span>
-            </label>
-          </div>
-        </fieldset>
-
-        <div class="setup-start-row">
-          <fieldset>
-            <legend>Questions</legend>
-
-            <div class="question-count">
-              <label>
-                <input class="native-radio" type="radio" name="unavailable-count" value="5" checked>
-                <span>5</span>
-              </label>
-              <label>
-                <input class="native-radio" type="radio" name="unavailable-count" value="10">
-                <span>10</span>
-              </label>
-              <label>
-                <input class="native-radio" type="radio" name="unavailable-count" value="15">
-                <span>15</span>
-              </label>
-            </div>
-          </fieldset>
-
-          <button type="button" class="button button-primary setup-start" disabled>
+          <button type="submit" class="button button-primary setup-start" id="setup-start">
             Let's go
           </button>
         </div>
+
+        <p class="setup-note" id="setup-note" hidden></p>
       </form>
     </section>
 
-    <!-- 3. Question -->
+    <!-- 2. Question / hint / feedback — one screen, states toggled by training.js -->
     <section
       id="quiz-question"
       class="training-screen quiz-screen question-screen"
-      aria-labelledby="question-heading"
+      aria-labelledby="quiz-heading"
     >
-      <h1 id="question-heading">Quiz</h1>
-
-      <div class="quiz-progress">
-        <p class="quiz-progress-label" id="question-progress-label">3 / 10</p>
-        <progress
-          id="question-progress"
-          class="sr-only"
-          max="10"
-          value="3"
-          aria-labelledby="question-progress-label"
-        >3 / 10</progress>
-        <div class="progress-segments" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i>
-          <i></i><i></i><i></i><i></i><i></i>
-        </div>
-      </div>
-
-      <p class="quiz-instruction" id="question-instruction">
-        Select the correct meaning
-      </p>
-
-      <div class="word-prompt">
-        <h2 id="question-word">serendipity</h2>
-      </div>
-
-      <fieldset
-        class="answer-area"
-        aria-labelledby="question-instruction question-word"
-      >
-        <legend class="sr-only">Answers</legend>
-
-        <div class="answer-grid">
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="question-answer" value="discovery">
-            <span>the occurrence of an unexpected, happy discovery</span>
-          </label>
-
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="question-answer" value="exhaustion">
-            <span>a state of severe mental or physical exhaustion</span>
-          </label>
-
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="question-answer" value="judgment">
-            <span>the ability to make good judgments and quick decisions</span>
-          </label>
-
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="question-answer" value="chasm">
-            <span>an extremely deep, bottomless chasm or gulf</span>
-          </label>
-        </div>
-      </fieldset>
-
-      <div class="quiz-actions">
-        <a href="#quiz-hint" class="button button-secondary">Show color</a>
-        <a href="#quiz-correct" class="button button-primary">Check</a>
-      </div>
+      <h1 id="quiz-heading">Quiz</h1>
+      <div id="quiz-root"></div>
     </section>
 
-    <!-- 4. Color hint -->
-    <section
-      id="quiz-hint"
-      class="training-screen quiz-screen hint-screen"
-      aria-labelledby="hint-heading"
-    >
-      <h1 id="hint-heading">Quiz</h1>
-
-      <div class="quiz-progress">
-        <p class="quiz-progress-label" id="hint-progress-label">3 / 10</p>
-        <progress
-          id="hint-progress"
-          class="sr-only"
-          max="10"
-          value="3"
-          aria-labelledby="hint-progress-label"
-        >3 / 10</progress>
-        <div class="progress-segments" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i>
-          <i></i><i></i><i></i><i></i><i></i>
-        </div>
-      </div>
-
-      <p class="quiz-instruction" id="hint-instruction">
-        Select the option with matching color hint
-      </p>
-
-      <div class="word-prompt">
-        <h2 id="hint-word">serendipity</h2>
-        <span class="word-category">noun</span>
-      </div>
-
-      <fieldset
-        class="answer-area"
-        aria-labelledby="hint-instruction hint-word"
-      >
-        <legend class="sr-only">Answers</legend>
-
-        <div class="answer-grid">
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="hint-answer" value="discovery" checked>
-            <span>the occurrence of an unexpected, happy discovery</span>
-          </label>
-
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="hint-answer" value="exhaustion">
-            <span>a state of severe mental or physical exhaustion</span>
-          </label>
-
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="hint-answer" value="judgment">
-            <span>the ability to make good judgments and quick decisions</span>
-          </label>
-
-          <label class="answer-card">
-            <input class="native-radio" type="radio" name="hint-answer" value="chasm">
-            <span>an extremely deep, bottomless chasm or gulf</span>
-          </label>
-        </div>
-      </fieldset>
-
-      <div class="quiz-actions">
-        <a href="#quiz-correct" class="button button-primary">Check</a>
-      </div>
-    </section>
-
-    <!-- 5. Correct answer -->
-    <section
-      id="quiz-correct"
-      class="training-screen quiz-screen feedback-screen correct-screen"
-      aria-labelledby="correct-heading"
-    >
-      <h1 id="correct-heading">Quiz</h1>
-
-      <div class="quiz-progress">
-        <p class="quiz-progress-label" id="correct-progress-label">3 / 10</p>
-        <progress
-          id="correct-progress"
-          class="sr-only"
-          max="10"
-          value="3"
-          aria-labelledby="correct-progress-label"
-        >3 / 10</progress>
-        <div class="progress-segments" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i>
-          <i></i><i></i><i></i><i></i><i></i>
-        </div>
-      </div>
-
-      <p class="quiz-instruction" id="correct-instruction">
-        Select the option with matching color hint
-      </p>
-
-      <div class="word-prompt">
-        <h2 id="correct-word">serendipity</h2>
-        <span class="word-category">noun</span>
-      </div>
-
-      <div class="answer-area">
-        <p class="feedback-message">
-          <span>Nailed it!</span>
-          <span class="points-earned">+1 point</span>
-        </p>
-
-        <fieldset aria-labelledby="correct-instruction correct-word">
-          <legend class="sr-only">Answers</legend>
-
-          <div class="answer-grid">
-            <label class="answer-card answer-correct">
-              <input class="native-radio" type="radio" name="correct-answer" value="discovery" checked disabled>
-              <span>
-                the occurrence of an unexpected, happy discovery
-                <span class="sr-only"> (Correct answer)</span>
-              </span>
-            </label>
-
-            <label class="answer-card">
-              <input class="native-radio" type="radio" name="correct-answer" value="exhaustion" disabled>
-              <span>a state of severe mental or physical exhaustion</span>
-            </label>
-
-            <label class="answer-card">
-              <input class="native-radio" type="radio" name="correct-answer" value="judgment" disabled>
-              <span>the ability to make good judgments and quick decisions</span>
-            </label>
-
-            <label class="answer-card">
-              <input class="native-radio" type="radio" name="correct-answer" value="chasm" disabled>
-              <span>an extremely deep, bottomless chasm or gulf</span>
-            </label>
-          </div>
-        </fieldset>
-      </div>
-
-      <div class="quiz-actions">
-        <button type="button" class="button button-primary">Next question</button>
-      </div>
-    </section>
-
-    <!-- 6. Wrong answer -->
-    <section
-      id="quiz-wrong"
-      class="training-screen quiz-screen feedback-screen wrong-screen"
-      aria-labelledby="wrong-heading"
-    >
-      <h1 id="wrong-heading">Quiz</h1>
-
-      <div class="quiz-progress">
-        <p class="quiz-progress-label" id="wrong-progress-label">3 / 10</p>
-        <progress
-          id="wrong-progress"
-          class="sr-only"
-          max="10"
-          value="3"
-          aria-labelledby="wrong-progress-label"
-        >3 / 10</progress>
-        <div class="progress-segments" aria-hidden="true">
-          <i></i><i></i><i></i><i></i><i></i>
-          <i></i><i></i><i></i><i></i><i></i>
-        </div>
-      </div>
-
-      <p class="quiz-instruction" id="wrong-instruction">
-        Select the option with matching color hint
-      </p>
-
-      <div class="word-prompt">
-        <h2 id="wrong-word">serendipity</h2>
-        <span class="word-category">noun</span>
-      </div>
-
-      <div class="answer-area">
-        <p class="feedback-message">
-          Ouch. It happens — this one will stick, promise.
-        </p>
-
-        <fieldset aria-labelledby="wrong-instruction wrong-word">
-          <legend class="sr-only">Answers</legend>
-
-          <div class="answer-grid">
-            <label class="answer-card">
-              <input class="native-radio" type="radio" name="wrong-answer" value="discovery" disabled>
-              <span>the occurrence of an unexpected, happy discovery</span>
-            </label>
-
-            <label class="answer-card answer-wrong">
-              <input class="native-radio" type="radio" name="wrong-answer" value="exhaustion" checked disabled>
-              <span>
-                a state of severe mental or physical exhaustion
-                <span class="sr-only"> (Incorrect answer)</span>
-              </span>
-            </label>
-
-            <label class="answer-card">
-              <input class="native-radio" type="radio" name="wrong-answer" value="judgment" disabled>
-              <span>the ability to make good judgments and quick decisions</span>
-            </label>
-
-            <label class="answer-card">
-              <input class="native-radio" type="radio" name="wrong-answer" value="chasm" disabled>
-              <span>an extremely deep, bottomless chasm or gulf</span>
-            </label>
-          </div>
-        </fieldset>
-      </div>
-
-      <div class="quiz-actions">
-        <button type="button" class="button button-primary" disabled>
-          Next question
-        </button>
-      </div>
-    </section>
-
-    <!-- 7. Results -->
+    <!-- 3. Results -->
     <section
       id="training-results"
       class="training-screen results-screen"
       aria-labelledby="results-heading"
     >
       <h1 id="results-heading">Training complete</h1>
-
-      <div class="score-card">
-        <p class="score-total" aria-label="7 out of 10">7/10</p>
-        <p class="score-assessment">Not bad, not bad at all</p>
-      </div>
-
-      <div class="result-groups">
-        <details class="result-group freshly-learned" open>
-          <summary>
-            <span>freshly learned</span>
-            <span class="word-count">3 words</span>
-            <svg class="interface-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
-          </summary>
-
-          <ul>
-            <li>lucid</li>
-            <li>ephemeral</li>
-            <li>liminal</li>
-          </ul>
-        </details>
-
-        <details class="result-group back-to-bench">
-          <summary>
-            <span>back to the bench</span>
-            <span class="word-count">2 words</span>
-            <svg class="interface-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
-          </summary>
-          <!-- Word list not supplied in the mockup. -->
-        </details>
-
-        <details class="result-group dusted-off">
-          <summary>
-            <span>dusted off</span>
-            <span class="word-count">2 words</span>
-            <svg class="interface-icon" aria-hidden="true"><use href="#icon-chevron"/></svg>
-          </summary>
-          <!-- Word list not supplied in the mockup. -->
-        </details>
-      </div>
-
-      <div class="result-actions">
-        <a href="#training-setup" class="button button-primary">One more?</a>
-        <a href="index.html" class="button button-secondary">That's it for today</a>
-      </div>
+      <div id="results-root"></div>
     </section>
   </main>
+
+  <script type="module" src="../scripts/training.js"></script>
 </body>
 </html>

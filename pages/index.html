@@ -97,7 +97,7 @@
 
   <main class="home-content">
 
-    <!-- 1. Populated home -->
+    <!-- Dashboard: the overview is generated from state by home.js -->
     <section
       class="home-screen home-dashboard"
       id="home"
@@ -107,150 +107,10 @@
         Ready to make some words stick?
       </h1>
 
-      <div class="home-overview">
-        <dl class="vocabulary-statistics" aria-label="Vocabulary statistics">
-          <div class="vocabulary-stat">
-            <dt class="stat-label">Total</dt>
-            <dd class="stat-value">42</dd>
-          </div>
-
-          <div class="vocabulary-stat">
-            <dt class="stat-label">New</dt>
-            <dd class="stat-value">8</dd>
-          </div>
-
-          <div class="vocabulary-stat stat-learning">
-            <dt class="stat-label">Learning</dt>
-            <dd class="stat-value">22</dd>
-          </div>
-
-          <div class="vocabulary-stat stat-mastered">
-            <dt class="stat-label">Mastered</dt>
-            <dd class="stat-value">12</dd>
-          </div>
-        </dl>
-
-        <p class="practice-reminder">
-          3 words are getting dusty!
-          <span class="reminder-continuation">
-            Practice them before they fade from your memory.
-          </span>
-        </p>
-
-        <article class="todays-pick" aria-labelledby="featured-word">
-          <p class="pick-eyebrow">Today's Pick</p>
-
-          <div class="pick-entry">
-            <h2 class="pick-word" id="featured-word">
-              <a href="dictionary.html#word-detail">serendipity</a>
-            </h2>
-            <p class="pick-definition">
-              the occurrence of an unexpected, happy discovery
-            </p>
-          </div>
-
-          <p class="pick-part-of-speech">noun</p>
-        </article>
-
-        <div class="vocabulary-actions">
-          <a class="button button-primary action-train" href="training.html">
-            Let's train
-          </a>
-
-          <a class="button button-secondary action-add" href="dictionary.html#add-word">
-            + Add a word
-          </a>
-        </div>
-      </div>
+      <div class="home-overview" id="home-overview"></div>
     </section>
 
-    <!-- 2. Fewer than five words -->
-    <section
-      class="home-screen home-dashboard home-beginner"
-      id="home-beginner"
-      aria-labelledby="beginner-heading"
-    >
-      <h1 class="home-greeting" id="beginner-heading">
-        Ready to make some words stick?
-      </h1>
-
-      <div class="home-overview">
-        <!--
-          Static preview preserves different counts in the mobile and desktop
-          references. Use one consistent value per statistic in a live app.
-        -->
-        <dl class="vocabulary-statistics" aria-label="Vocabulary statistics">
-          <div class="vocabulary-stat">
-            <dt class="stat-label">Total</dt>
-            <dd class="stat-value">
-              <span class="mobile-only">4</span>
-              <span class="desktop-only">42</span>
-            </dd>
-          </div>
-
-          <div class="vocabulary-stat">
-            <dt class="stat-label">New</dt>
-            <dd class="stat-value">
-              <span class="mobile-only">4</span>
-              <span class="desktop-only">8</span>
-            </dd>
-          </div>
-
-          <div class="vocabulary-stat stat-learning">
-            <dt class="stat-label">Learning</dt>
-            <dd class="stat-value">
-              <span class="mobile-only">0</span>
-              <span class="desktop-only">22</span>
-            </dd>
-          </div>
-
-          <div class="vocabulary-stat stat-mastered">
-            <dt class="stat-label">Mastered</dt>
-            <dd class="stat-value">
-              <span class="mobile-only">0</span>
-              <span class="desktop-only">12</span>
-            </dd>
-          </div>
-        </dl>
-
-        <article class="todays-pick" aria-labelledby="beginner-word">
-          <p class="pick-eyebrow">Today's Pick</p>
-
-          <div class="pick-entry">
-            <h2 class="pick-word" id="beginner-word">
-              <a href="dictionary.html#word-detail">serendipity</a>
-            </h2>
-            <p class="pick-definition">
-              the occurrence of an unexpected, happy discovery
-            </p>
-          </div>
-
-          <p class="pick-part-of-speech">noun</p>
-        </article>
-
-        <p class="training-requirement" id="training-requirement">
-          You need at least 5 words to play.<br>
-          Go catch some.
-        </p>
-
-        <div class="vocabulary-actions">
-          <button
-            class="button button-primary action-train"
-            type="button"
-            disabled
-            aria-describedby="training-requirement"
-          >
-            Let's train
-          </button>
-
-          <a class="button button-secondary action-add" href="dictionary.html#add-word">
-            + Add a word
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 3. Empty home -->
+    <!-- Empty state: shown by home.js when the dictionary has no words -->
     <section
       class="home-screen home-empty"
       id="home-empty"
@@ -279,5 +139,7 @@
       </div>
     </section>
   </main>
+
+  <script type="module" src="../scripts/home.js"></script>
 </body>
 </html>
