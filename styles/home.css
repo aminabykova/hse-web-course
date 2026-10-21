@@ -9,22 +9,14 @@
     var(--navigation-clearance);
 }
 
-/* Static screen selection via :target anchors */
+/* Screen selection driven by home.js (state, not :target) */
 
 .home-screen {
   display: none;
   scroll-margin-top: 110px;
 }
 
-.home-dashboard:first-child {
-  display: block;
-}
-
-.home-content:has(.home-screen:target) .home-screen {
-  display: none;
-}
-
-.home-content:has(.home-screen:target) .home-screen:target {
+.home-screen.is-active {
   display: block;
 }
 
@@ -167,7 +159,7 @@
 
 /* Empty home */
 
-.home-content:has(.home-empty:target) {
+.home-content.is-empty {
   max-width: none;
   padding: 0;
 }
@@ -179,7 +171,7 @@
   padding: var(--space-md) var(--page-gutter);
 }
 
-.home-content:has(.home-empty:target) .home-empty:target {
+.home-empty.is-active {
   display: grid;
   place-items: center;
 }
