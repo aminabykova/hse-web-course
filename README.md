@@ -21,3 +21,28 @@
 **5. Training** — квиз в трёх состояниях: настройка сессии (направление «слово → определение» или наоборот, обычный режим с вариантами разных цветов или Hard — все четыре варианта одного цвета, длина 5/10/15), сам квиз с бесплатной подсказкой цвета и мгновенным фидбеком, экран результатов.
 
 **6. Progress** — статистика ради ощущения движения: распределение слов по цветам и статусам, динамика по месяцам, свежие победы.
+
+## Структура проекта
+
+```
+pages/                     — HTML-страницы
+  index.html               — Home (+ состояния «мало слов» и «пусто»)
+  dictionary.html          — Dictionary: список, поиск/фильтры, добавление, карточка, редактирование, удаление
+  training.html            — Training: настройка квиза, вопрос, подсказка, фидбек, результаты
+  progress.html            — Progress: статистика и пустое состояние
+styles/
+  base.css                 — общие токены дизайна, сброс, шапка, навигация, кнопки
+  home.css                 — стили страницы Home
+  dictionary.css           — стили страницы Dictionary
+  training.css             — стили страницы Training
+  progress.css             — стили страницы Progress
+```
+
+## Переключение экранов
+
+Переключение экранов внутри страницы работает через `:target`-якоря, например:
+
+- `index.html#home-beginner` / `index.html#home-empty`
+- `dictionary.html#add-word`, `dictionary.html#word-detail`, `dictionary.html#edit-word`, `dictionary.html#delete-word`
+- `training.html#quiz-question`, `training.html#quiz-hint`, `training.html#quiz-correct`, `training.html#quiz-wrong`, `training.html#training-results`
+- `progress.html#progress-empty`

@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Progress | FabVocab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/base.css">
+  <link rel="stylesheet" href="../styles/progress.css">
+</head>
+
+<body>
+  <!-- Shared decorative icons -->
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-home" viewBox="0 0 24 24">
+      <path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/>
+    </symbol>
+
+    <symbol id="icon-dictionary" viewBox="0 0 24 24">
+      <path d="M12 5v16M12 5C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1Z"/>
+    </symbol>
+
+    <symbol id="icon-training" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="2"/>
+    </symbol>
+
+    <symbol id="icon-progress" viewBox="0 0 24 24">
+      <path d="m2 17 7-7 5 5 8-9 M16 6h6v6"/>
+    </symbol>
+
+    <symbol id="icon-plus" viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14"/>
+    </symbol>
+
+    <symbol id="icon-chevron" viewBox="0 0 24 24">
+      <path d="m6 9 6 6 6-6"/>
+    </symbol>
+  </svg>
+
+  <!-- Mobile header -->
+  <header class="mobile-header">
+    <span class="mobile-title">Progress</span>
+    <span class="profile-avatar">AB</span>
+  </header>
+
+  <!-- Bottom navigation on mobile; top navigation on desktop -->
+  <nav class="primary-navigation" aria-label="Main navigation">
+    <a class="brand" href="index.html">FabVocab.</a>
+
+    <div class="navigation-destinations">
+      <a class="navigation-item" href="index.html">
+        <svg class="interface-icon" aria-hidden="true">
+          <use href="#icon-home"/>
+        </svg>
+        <span>Home</span>
+      </a>
+
+      <a class="navigation-item" href="dictionary.html">
+        <svg class="interface-icon" aria-hidden="true">
+          <use href="#icon-dictionary"/>
+        </svg>
+        <span>Dictionary</span>
+      </a>
+
+      <a class="navigation-item" href="training.html">
+        <svg class="interface-icon" aria-hidden="true">
+          <use href="#icon-training"/>
+        </svg>
+        <span>Training</span>
+      </a>
+
+      <a
+        class="navigation-item navigation-current"
+        href="progress.html"
+        aria-current="page"
+      >
+        <svg class="interface-icon" aria-hidden="true">
+          <use href="#icon-progress"/>
+        </svg>
+        <span>Progress</span>
+      </a>
+    </div>
+
+    <a class="add-word" href="dictionary.html#add-word" aria-label="Add a word">
+      <svg class="interface-icon" aria-hidden="true">
+        <use href="#icon-plus"/>
+      </svg>
+      <span>+ Add word</span>
+    </a>
+  </nav>
+
+  <main class="progress-content">
+
+    <!-- Populated progress -->
+    <section
+      class="progress-screen progress-populated"
+      id="progress"
+      aria-labelledby="progress-heading"
+    >
+      <h1 class="sr-only" id="progress-heading">Progress</h1>
+
+      <!-- Vocabulary statistics -->
+      <section
+        class="progress-panel vocabulary-panel"
+        aria-labelledby="vocabulary-heading"
+      >
+        <h2 class="panel-heading" id="vocabulary-heading">
+          Vocabulary Stats
+        </h2>
+
+        <div class="statistics-card vocabulary-card">
+          <!--
+            Bar proportions reproduce the mockup geometry.
+            The supplied percentage labels are inconsistent and total 106%.
+          -->
+          <div class="status-distribution" aria-hidden="true">
+            <span class="status-segment status-new"></span>
+            <span class="status-segment status-learning"></span>
+            <span class="status-segment status-mastered"></span>
+            <span class="status-segment status-dusty"></span>
+          </div>
+
+          <dl class="status-legend">
+            <div class="legend-entry">
+              <dt>
+                <span class="legend-dot status-new" aria-hidden="true"></span>
+                New
+              </dt>
+              <dd>19%</dd>
+            </div>
+
+            <div class="legend-entry">
+              <dt>
+                <span class="legend-dot status-mastered" aria-hidden="true"></span>
+                Mastered
+              </dt>
+              <dd>28%</dd>
+            </div>
+
+            <div class="legend-entry">
+              <dt>
+                <span class="legend-dot status-learning" aria-hidden="true"></span>
+                Learning
+              </dt>
+              <dd>52%</dd>
+            </div>
+
+            <div class="legend-entry">
+              <dt>
+                <span class="legend-dot status-dusty" aria-hidden="true"></span>
+                Dusty
+              </dt>
+              <dd>7%</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <!-- Color statistics -->
+      <section
+        class="progress-panel color-panel"
+        aria-labelledby="color-heading"
+      >
+        <h2 class="panel-heading" id="color-heading">Color Stats</h2>
+
+        <div class="statistics-card color-card">
+          <div class="color-distribution" aria-hidden="true">
+            <span class="color-segment color-black"></span>
+            <span class="color-segment color-gray"></span>
+            <span class="color-segment color-white"></span>
+            <span class="color-segment color-red"></span>
+            <span class="color-segment color-yellow"></span>
+            <span class="color-segment color-green"></span>
+            <span class="color-segment color-blue"></span>
+            <span class="color-segment color-pink"></span>
+          </div>
+
+          <details class="color-breakdown">
+            <summary class="color-summary">
+              <span>Most: Red 18%</span>
+              <svg class="interface-icon" aria-hidden="true">
+                <use href="#icon-chevron"/>
+              </svg>
+            </summary>
+
+            <ul class="color-shares">
+              <li><span>Blue</span><span>16%</span></li>
+              <li><span>Green</span><span>15%</span></li>
+              <li><span>Pink</span><span>13%</span></li>
+              <li><span>Yellow</span><span>12%</span></li>
+              <li><span>Gray</span><span>10%</span></li>
+              <li><span>Black</span><span>9%</span></li>
+              <li><span>White</span><span>7%</span></li>
+            </ul>
+          </details>
+        </div>
+      </section>
+
+      <!-- Monthly learning activity -->
+      <section
+        class="progress-panel monthly-panel"
+        aria-labelledby="monthly-heading"
+      >
+        <h2 class="panel-heading" id="monthly-heading">
+          Added vs Mastered (Monthly)
+        </h2>
+
+        <figure
+          class="statistics-card monthly-card"
+          aria-labelledby="monthly-heading monthly-description"
+        >
+          <!--
+            Heights are presentation measurements.
+            Numeric monthly counts were not supplied.
+          -->
+          <div class="monthly-chart" aria-hidden="true">
+            <div class="month-group month-november">
+              <div class="month-bars">
+                <span class="monthly-bar bar-added"></span>
+                <span class="monthly-bar bar-mastered"></span>
+              </div>
+              <span class="month-label">Nov</span>
+            </div>
+
+            <div class="month-group month-december">
+              <div class="month-bars">
+                <span class="monthly-bar bar-added"></span>
+                <span class="monthly-bar bar-mastered"></span>
+              </div>
+              <span class="month-label">Dec</span>
+            </div>
+
+            <div class="month-group month-january">
+              <div class="month-bars">
+                <span class="monthly-bar bar-added"></span>
+                <span class="monthly-bar bar-mastered"></span>
+              </div>
+              <span class="month-label">Jan</span>
+            </div>
+          </div>
+
+          <figcaption class="monthly-legend">
+            <span>
+              <span class="legend-dot status-new" aria-hidden="true"></span>
+              Added
+            </span>
+
+            <span>
+              <span class="legend-dot status-mastered" aria-hidden="true"></span>
+              Mastered
+            </span>
+
+            <span class="sr-only" id="monthly-description">
+              November, December, and January. Both series increase each month;
+              added words exceed mastered words in every month.
+              Exact monthly counts are not supplied.
+            </span>
+          </figcaption>
+        </figure>
+      </section>
+
+      <!-- Recently learned/mastered words -->
+      <section
+        class="progress-panel recent-panel"
+        aria-labelledby="recent-heading"
+      >
+        <h2 class="panel-heading" id="recent-heading">
+          <span class="mobile-only">Recently Learned</span>
+          <span class="desktop-only">Recently Mastered</span>
+        </h2>
+
+        <ul class="recent-words">
+          <li>
+            <a class="recent-word" href="dictionary.html#word-detail">
+              <span class="recent-word-name">serendipity</span>
+              <span class="recent-word-status">Mastered</span>
+            </a>
+          </li>
+
+          <li>
+            <a class="recent-word" href="dictionary.html#word-detail">
+              <span class="recent-word-name">lucid</span>
+              <span class="recent-word-status">Mastered</span>
+            </a>
+          </li>
+
+          <li>
+            <a class="recent-word" href="dictionary.html#word-detail">
+              <span class="recent-word-name">ephemeral</span>
+              <span class="recent-word-status">
+                <span class="mobile-only">Learned</span>
+                <span class="desktop-only">Mastered</span>
+              </span>
+            </a>
+          </li>
+
+          <li>
+            <a class="recent-word" href="dictionary.html#word-detail">
+              <span class="recent-word-name">cacophony</span>
+              <span class="recent-word-status">Mastered</span>
+            </a>
+          </li>
+
+          <li>
+            <a class="recent-word" href="dictionary.html#word-detail">
+              <span class="recent-word-name">liminal</span>
+              <span class="recent-word-status">Mastered</span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- Empty progress -->
+    <section
+      class="progress-screen progress-empty"
+      id="progress-empty"
+      aria-labelledby="empty-heading"
+    >
+      <div class="empty-state">
+        <div class="empty-message">
+          <span class="empty-illustration" aria-hidden="true">
+            <svg class="interface-icon">
+              <use href="#icon-progress"/>
+            </svg>
+          </span>
+
+          <h1 class="empty-heading" id="empty-heading">
+            Nothing here yet
+          </h1>
+
+          <p class="empty-description">
+            Nothing to show yet — but that’s the boring part, go fix it.
+          </p>
+        </div>
+
+        <a class="button button-primary empty-action" href="dictionary.html#add-word">
+          Go catch some words
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,504 @@
+/* Progress screen styles */
+
+:root {
+  --panel-gap: var(--space-lg);
+
+  /* Presentation heights, not monthly word counts. */
+  --chart-height: 80px;
+  --november-added: 40px;
+  --november-mastered: 20px;
+  --december-added: 60px;
+  --december-mastered: 36px;
+  --january-added: 80px;
+  --january-mastered: 56px;
+}
+
+/* Static screen selection via :target anchors */
+
+.progress-content {
+  max-width: 648px;
+  margin-inline: auto;
+  padding:
+    var(--space-md)
+    var(--page-gutter)
+    var(--navigation-clearance);
+}
+
+.progress-screen {
+  display: none;
+  scroll-margin-top: 110px;
+}
+
+.progress-populated {
+  display: grid;
+  gap: var(--panel-gap);
+}
+
+.progress-content:has(.progress-screen:target) .progress-screen {
+  display: none;
+}
+
+.progress-content:has(.progress-screen:target) .progress-screen:target {
+  display: grid;
+}
+
+.progress-panel {
+  min-width: 0;
+}
+
+.panel-heading {
+  margin-bottom: var(--space-xs);
+
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--font-size-lg);
+}
+
+.statistics-card {
+  padding: var(--space-md);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+}
+
+/* Vocabulary statistics */
+
+.vocabulary-card {
+  min-height: 114px;
+}
+
+.status-distribution,
+.color-distribution {
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+.status-distribution {
+  height: 40px;
+}
+
+.status-segment {
+  flex-basis: 0;
+}
+
+/* These weights preserve the supplied graphic proportions. */
+.status-segment.status-new {
+  flex-grow: 49;
+}
+
+.status-segment.status-learning {
+  flex-grow: 171;
+}
+
+.status-segment.status-mastered {
+  flex-grow: 93;
+}
+
+.status-segment.status-dusty {
+  flex-grow: 13;
+}
+
+.status-new {
+  background: var(--ink);
+}
+
+.status-learning {
+  background: var(--yellow);
+}
+
+.status-mastered {
+  background: var(--green);
+}
+
+.status-dusty {
+  background: var(--gray);
+}
+
+.status-legend {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: var(--space-xs) var(--space-lg);
+  margin-top: var(--space-xs);
+
+  font-size: var(--font-size-xs);
+  line-height: 12px;
+}
+
+.legend-entry {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: var(--space-sm);
+}
+
+.legend-entry dt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-entry dd {
+  order: -1;
+}
+
+.legend-entry .legend-dot {
+  position: absolute;
+  left: 0;
+}
+
+.legend-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+}
+
+/* Color distribution */
+
+.color-distribution {
+  height: 80px;
+}
+
+.color-segment {
+  flex-basis: 0;
+}
+
+.color-black {
+  background: var(--ink);
+  flex-grow: 47;
+}
+
+.color-gray {
+  background: var(--gray);
+  flex-grow: 39.4167;
+}
+
+.color-white {
+  background: var(--muted);
+  flex-grow: 30;
+}
+
+.color-red {
+  background: var(--red);
+  flex-grow: 60;
+}
+
+.color-yellow {
+  background: var(--yellow);
+  flex-grow: 39.4167;
+}
+
+.color-green {
+  background: var(--green);
+  flex-grow: 50.75;
+}
+
+.color-blue {
+  background: var(--blue);
+  flex-grow: 39.4167;
+}
+
+.color-pink {
+  background: var(--pink);
+  flex-grow: 20;
+}
+
+.color-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+
+  width: 100%;
+  min-height: 16px;
+  margin-top: var(--space-xs);
+  padding: 0;
+  border: 0;
+  background: transparent;
+
+  text-align: left;
+  font-size: var(--font-size-xs);
+  line-height: 12px;
+
+  list-style: none;
+  cursor: pointer;
+}
+
+.color-summary::-webkit-details-marker {
+  display: none;
+}
+
+.color-summary:hover {
+  text-decoration: underline;
+}
+
+.color-summary .interface-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.color-breakdown[open] .color-summary .interface-icon {
+  transform: rotate(180deg);
+}
+
+.color-shares {
+  display: grid;
+  gap: var(--space-2xs);
+  margin: var(--space-xs) 0 0;
+
+  list-style: none;
+  font-size: var(--font-size-sm);
+  line-height: 16px;
+}
+
+.color-shares li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-xs);
+}
+
+/* Monthly comparison chart */
+
+.monthly-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-height: 152px;
+}
+
+.monthly-chart {
+  display: flex;
+  align-items: end;
+  gap: var(--space-md);
+}
+
+.month-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.month-bars {
+  display: flex;
+  align-items: end;
+  gap: var(--space-2xs);
+
+  height: var(--chart-height);
+}
+
+.monthly-bar {
+  display: block;
+  width: 10px;
+  border-radius: 2px 2px 0 0;
+}
+
+.bar-added {
+  background: var(--ink);
+}
+
+.bar-mastered {
+  background: var(--green);
+}
+
+.month-november .bar-added {
+  height: var(--november-added);
+}
+
+.month-november .bar-mastered {
+  height: var(--november-mastered);
+}
+
+.month-december .bar-added {
+  height: var(--december-added);
+}
+
+.month-december .bar-mastered {
+  height: var(--december-mastered);
+}
+
+.month-january .bar-added {
+  height: var(--january-added);
+}
+
+.month-january .bar-mastered {
+  height: var(--january-mastered);
+}
+
+.month-label {
+  font-size: var(--font-size-xs);
+  line-height: 12px;
+}
+
+.monthly-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-sm);
+
+  font-size: var(--font-size-xs);
+  line-height: 12px;
+}
+
+.monthly-legend > span:not(.sr-only) {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Recent words */
+
+.recent-panel .panel-heading {
+  font-size: var(--font-size-md);
+  line-height: 18px;
+}
+
+.recent-words {
+  display: grid;
+  gap: var(--space-xs);
+  list-style: none;
+}
+
+.recent-word {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+
+  min-height: 40px;
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  background: var(--paper);
+
+  transition: background-color var(--transition-fast);
+}
+
+.recent-word:hover {
+  background: var(--muted);
+}
+
+.recent-word-name {
+  min-width: 0;
+
+  font-size: var(--font-size-md);
+  line-height: 18px;
+  overflow-wrap: anywhere;
+}
+
+.recent-word-status {
+  flex-shrink: 0;
+
+  color: var(--green);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: 16px;
+  text-transform: uppercase;
+}
+
+/* Empty progress */
+
+.progress-content:has(.progress-empty:target) {
+  max-width: none;
+  padding: 0;
+}
+
+.progress-empty {
+  min-height: calc(100vh - 178px);
+  min-height: calc(100dvh - 178px);
+  margin-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  padding: var(--space-md) var(--page-gutter);
+}
+
+.progress-content:has(.progress-empty:target) .progress-empty:target {
+  display: grid;
+  place-items: center;
+}
+
+.progress-empty .empty-state {
+  max-width: 480px;
+}
+
+.progress-empty .empty-description {
+  max-width: 358px;
+}
+
+.empty-action {
+  width: 100%;
+  padding: 14px var(--space-xl);
+}
+
+/* Small phones */
+
+@media (max-width: 359px) {
+  .status-legend {
+    gap: var(--space-xs) var(--space-sm);
+  }
+
+  .panel-heading {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Desktop */
+
+@media (min-width: 900px) {
+  :root {
+    --panel-gap: var(--space-2xl);
+    --chart-height: 110px;
+
+    --november-added: 70px;
+    --november-mastered: 40px;
+    --december-added: 100px;
+    --december-mastered: 64px;
+    --january-added: 110px;
+    --january-mastered: 84px;
+  }
+
+  .progress-content {
+    max-width: 1152px;
+    padding-top: var(--space-2xl);
+    padding-bottom: 64px;
+  }
+
+  .progress-populated {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .progress-screen {
+    scroll-margin-top: 118px;
+  }
+
+  .vocabulary-card {
+    min-height: 136px;
+  }
+
+  .monthly-card {
+    min-height: 236px;
+    padding-top: 64px;
+  }
+
+  .monthly-chart {
+    gap: var(--space-lg);
+  }
+
+  .monthly-legend {
+    margin-top: var(--space-md);
+  }
+
+  .progress-empty {
+    min-height: 696px;
+    margin-bottom: 0;
+    padding: var(--space-xl) var(--page-gutter);
+  }
+
+  .empty-action {
+    width: auto;
+  }
+}
