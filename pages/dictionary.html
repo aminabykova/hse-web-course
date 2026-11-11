@@ -53,6 +53,14 @@
     <symbol id="icon-trash" viewBox="0 0 24 24">
       <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7"/>
     </symbol>
+
+    <symbol id="icon-paste" viewBox="0 0 24 24">
+      <path d="M9 4H6a1 1 0 0 0-1 1v15a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1h-3M9 3h6v4H9V3z"/>
+    </symbol>
+
+    <symbol id="icon-copy" viewBox="0 0 24 24">
+      <path d="M6 15.5H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h9.5a1 1 0 0 1 1 1v1m-6 14H19a1 1 0 0 0 1-1V9.5a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1V19a1 1 0 0 0 1 1Z"/>
+    </symbol>
   </svg>
 
   <!-- Shared mobile header; the title is updated by dictionary.js -->
@@ -113,33 +121,35 @@
         <div class="filter-colors">
           <span class="filter-label">Filter:</span>
 
-          <fieldset class="color-picker filter-picker">
+          <fieldset class="filter-picker">
             <legend class="sr-only">Filter by color</legend>
 
-            <label class="color-option color-white" for="filter-white">
-              <input id="filter-white" type="radio" name="filter-color" value="white" aria-label="White">
-            </label>
-            <label class="color-option color-gray" for="filter-gray">
-              <input id="filter-gray" type="radio" name="filter-color" value="gray" aria-label="Gray">
-            </label>
-            <label class="color-option color-black" for="filter-black">
-              <input id="filter-black" type="radio" name="filter-color" value="black" aria-label="Black">
-            </label>
-            <label class="color-option color-red" for="filter-red">
-              <input id="filter-red" type="radio" name="filter-color" value="red" aria-label="Red">
-            </label>
-            <label class="color-option color-yellow" for="filter-yellow">
-              <input id="filter-yellow" type="radio" name="filter-color" value="yellow" aria-label="Yellow">
-            </label>
-            <label class="color-option color-green" for="filter-green">
-              <input id="filter-green" type="radio" name="filter-color" value="green" aria-label="Green">
-            </label>
-            <label class="color-option color-blue" for="filter-blue">
-              <input id="filter-blue" type="radio" name="filter-color" value="blue" aria-label="Blue">
-            </label>
-            <label class="color-option color-pink" for="filter-pink">
-              <input id="filter-pink" type="radio" name="filter-color" value="pink" aria-label="Pink">
-            </label>
+            <div class="color-picker">
+              <label class="color-option color-white" for="filter-white">
+                <input id="filter-white" type="radio" name="filter-color" value="white" aria-label="White">
+              </label>
+              <label class="color-option color-gray" for="filter-gray">
+                <input id="filter-gray" type="radio" name="filter-color" value="gray" aria-label="Gray">
+              </label>
+              <label class="color-option color-black" for="filter-black">
+                <input id="filter-black" type="radio" name="filter-color" value="black" aria-label="Black">
+              </label>
+              <label class="color-option color-red" for="filter-red">
+                <input id="filter-red" type="radio" name="filter-color" value="red" aria-label="Red">
+              </label>
+              <label class="color-option color-yellow" for="filter-yellow">
+                <input id="filter-yellow" type="radio" name="filter-color" value="yellow" aria-label="Yellow">
+              </label>
+              <label class="color-option color-green" for="filter-green">
+                <input id="filter-green" type="radio" name="filter-color" value="green" aria-label="Green">
+              </label>
+              <label class="color-option color-blue" for="filter-blue">
+                <input id="filter-blue" type="radio" name="filter-color" value="blue" aria-label="Blue">
+              </label>
+              <label class="color-option color-pink" for="filter-pink">
+                <input id="filter-pink" type="radio" name="filter-color" value="pink" aria-label="Pink">
+              </label>
+            </div>
           </fieldset>
         </div>
 
@@ -221,7 +231,18 @@
       <form class="word-form" id="add-form" novalidate>
         <div class="form-field">
           <label for="add-text">Word *</label>
-          <input id="add-text" name="word" placeholder="What is it?" required>
+          <div class="field-with-paste">
+            <input id="add-text" name="word" placeholder="What is it?" required>
+            <button
+              class="paste-button"
+              type="button"
+              data-paste-target="add-text"
+              aria-label="Paste from clipboard"
+              title="Paste from clipboard"
+            >
+              <svg class="interface-icon" aria-hidden="true"><use href="#icon-paste"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="form-field">
@@ -236,17 +257,50 @@
 
         <div class="form-field">
           <label for="add-definition">Definition *</label>
-          <textarea id="add-definition" name="definition" placeholder="What does it mean?" required></textarea>
+          <div class="field-with-paste">
+            <textarea id="add-definition" name="definition" placeholder="What does it mean?" required></textarea>
+            <button
+              class="paste-button paste-button-tall"
+              type="button"
+              data-paste-target="add-definition"
+              aria-label="Paste from clipboard"
+              title="Paste from clipboard"
+            >
+              <svg class="interface-icon" aria-hidden="true"><use href="#icon-paste"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="form-field">
           <label for="add-translation">Translation</label>
-          <input id="add-translation" name="translation" placeholder="What does it mean in your lang?">
+          <div class="field-with-paste">
+            <input id="add-translation" name="translation" placeholder="What does it mean in your lang?">
+            <button
+              class="paste-button"
+              type="button"
+              data-paste-target="add-translation"
+              aria-label="Paste from clipboard"
+              title="Paste from clipboard"
+            >
+              <svg class="interface-icon" aria-hidden="true"><use href="#icon-paste"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="form-field">
           <label for="add-example">Example</label>
-          <input id="add-example" name="example" placeholder="Later is fine">
+          <div class="field-with-paste">
+            <input id="add-example" name="example" placeholder="Later is fine">
+            <button
+              class="paste-button"
+              type="button"
+              data-paste-target="add-example"
+              aria-label="Paste from clipboard"
+              title="Paste from clipboard"
+            >
+              <svg class="interface-icon" aria-hidden="true"><use href="#icon-paste"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="form-actions">

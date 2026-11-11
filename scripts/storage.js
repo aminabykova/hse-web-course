@@ -1,8 +1,7 @@
 /*
   FabVocab — persistence layer.
 
-  Thin wrapper around localStorage that is defensive on every boundary
-  (criterion: safe localStorage read/write + guarded JSON parsing):
+  Thin wrapper around localStorage that is defensive on every boundary:
     - reads are JSON-parsed inside try/catch and structurally validated
       field by field, so corrupt or partial data is dropped, not trusted;
     - writes are wrapped in try/catch so a full quota / unavailable storage
@@ -63,8 +62,9 @@ function sanitizeWord(raw) {
 
 /**
  * Load the stored dictionary.
- * @returns {Array|null} a validated array of words, or null when there is
- *   nothing usable stored (so the caller can fall back to the seed).
+ * @returns {Array|null} a validated array of words (possibly empty when the
+ *   user deleted everything), or null when nothing is stored at all (so the
+ *   caller can fall back to the seed on first run).
  */
 export function loadWords() {
   let rawString;
@@ -86,8 +86,9 @@ export function loadWords() {
 
   if (!Array.isArray(parsed)) return null;
 
-  const words = parsed.map(sanitizeWord).filter(Boolean);
-  return words.length ? words : null;
+  // An empty array is a legitimate stored state (user deleted every word) —
+  // it must survive the reload, not fall back to the seed.
+  return parsed.map(sanitizeWord).filter(Boolean);
 }
 
 /**

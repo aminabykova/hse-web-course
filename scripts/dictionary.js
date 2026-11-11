@@ -5,6 +5,10 @@
   columns), the add and edit forms (validation + persistence), the word
   detail view and the delete confirmation modal. Every screen is rendered
   from the shared store; the hash router decides which one is visible.
+
+  Also owns the Clipboard integration (HW #3): paste buttons on the add form
+  fields, cleaning of natively pasted text (the fallback when the async API
+  is unavailable), and the copy button on the word detail card.
 */
 
 import { Store } from './store.js';
@@ -19,6 +23,13 @@ import {
 } from './model.js';
 import { COLORS, PARTS_OF_SPEECH, FEEDBACK, MASTERY_STREAK, STATUS } from './data.js';
 import { initRouter, toHash } from './router.js';
+import {
+  clipboardStatus,
+  readClipboardText,
+  writeClipboardText,
+  cleanPastedText,
+  ClipboardError,
+} from './clipboard.js';
 
 const store = new Store();
 
@@ -56,6 +67,94 @@ function fillColorPicker(container) {
     ),
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Clipboard (HW #3): paste into forms, copy from the detail card      */
+/* ------------------------------------------------------------------ */
+
+/**
+ * One specific message per failure cause — never a generic catch-all.
+ * Mirrors the friendly tone of the FEEDBACK copy.
+ */
+const CLIPBOARD_MESSAGES = {
+  denied: 'The browser said no to your clipboard. Paste it the old-fashioned way — that still works.',
+  empty: 'Your clipboard is empty. Copy something first.',
+  unsupported: "Clipboard access isn't available in this context — paste manually instead.",
+  failed: "Couldn't read the clipboard. Try pasting manually.",
+};
+
+/** `word — definition` (+ translation), ready to paste into Anki or a chat. */
+function copyTextFor(word) {
+  const lines = [`${word.word} — ${word.definition}`];
+  if (word.translation) lines.push(word.translation);
+  return lines.join('\n');
+}
+
+/** Async Clipboard API read → cleaned text in the target field. */
+async function pasteInto(input) {
+  try {
+    const text = await readClipboardText();
+    input.value = cleanPastedText(text, { multiline: input.tagName === 'TEXTAREA' });
+    input.focus();
+  } catch (error) {
+    const code = error instanceof ClipboardError ? error.code : 'failed';
+    showToast(CLIPBOARD_MESSAGES[code] || CLIPBOARD_MESSAGES.failed);
+  }
+}
+
+/** Async Clipboard API write for the word detail card. */
+async function copyWord(word) {
+  try {
+    await writeClipboardText(copyTextFor(word));
+    showToast('Copied. Go paste it somewhere.');
+  } catch (error) {
+    const code = error instanceof ClipboardError ? error.code : 'failed';
+    showToast(
+      code === 'denied' || code === 'unsupported'
+        ? "Couldn't copy — your browser blocked it. Select the text and copy manually."
+        : "Couldn't copy. Try selecting the text and copying manually.",
+    );
+  }
+}
+
+function wirePasteButtons() {
+  for (const button of qsa('.paste-button')) {
+    const input = qs(`#${button.dataset.pasteTarget}`);
+    if (!input) continue;
+    button.addEventListener('click', () => pasteInto(input));
+  }
+}
+
+/** Replace the selection (or insert at the caret) with the given text. */
+function insertAtCursor(input, text) {
+  const { selectionStart, selectionEnd, value } = input;
+  const from = selectionStart ?? value.length;
+  const to = selectionEnd ?? value.length;
+  input.value = value.slice(0, from) + text + value.slice(to);
+  const caret = from + text.length;
+  input.setSelectionRange(caret, caret);
+}
+
+/**
+ * Clean text that arrives via the *native* paste action (Cmd+V / context
+ * menu). This is the fallback for when the async Clipboard API is missing
+ * (e.g. an insecure context) — and it improves ordinary pastes everywhere.
+ */
+function wirePasteCleaning(form) {
+  if (!form) return;
+  for (const input of qsa('input:not([type="radio"]), textarea', form)) {
+    input.addEventListener('paste', (event) => {
+      const raw = event.clipboardData?.getData('text/plain');
+      if (!raw) return;
+      const clean = cleanPastedText(raw, { multiline: input.tagName === 'TEXTAREA' });
+      if (!clean || clean === raw) return; // nothing to improve — keep native undo
+      event.preventDefault();
+      insertAtCursor(input, clean);
+    });
+  }
+}
+
+
 
 /* ------------------------------------------------------------------ */
 /* List: selection, sorting, rendering                                 */
@@ -233,6 +332,11 @@ function renderDetail(word) {
       icon('icon-chevron'),
       'Back',
     ]),
+    el('button', {
+      class: 'button button-secondary button-compact copy-link',
+      type: 'button',
+      onClick: () => copyWord(word),
+    }, [icon('icon-copy'), 'Copy']),
     el('a', { class: 'button button-secondary button-compact edit-link', href: toHash('edit-word', word.id), text: 'Edit word' }),
     el('button', {
       class: 'button button-secondary button-compact delete-link',
@@ -564,6 +668,9 @@ wireFilters();
 wireSort();
 wireForms();
 wireModal();
+wirePasteButtons();
+wirePasteCleaning(qs('#add-form'));
+wirePasteCleaning(qs('#edit-form'));
 
 resolveRoute = initRouter({
   screenSelector: '.dictionary-screen',

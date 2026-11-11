@@ -8,7 +8,7 @@
   event → action → persist → notify → render).
 */
 
-import { SEED_WORDS } from './data.js';
+import { SEED_WORDS, STORAGE_KEY } from './data.js';
 import { loadWords, saveWords } from './storage.js';
 import { createWord, applyAnswer } from './model.js';
 
@@ -22,6 +22,17 @@ export class Store {
     const loaded = loadWords();
     this.#words = loaded ?? SEED_WORDS.map((word) => ({ ...word, examples: [...word.examples] }));
     if (!loaded) this.#persist();
+
+    // Another tab may write to the same storage key. The `storage` event
+    // fires in every tab except the one that made the change, so reloading
+    // here merges the other tab's writes without ping-ponging.
+    window.addEventListener('storage', (event) => {
+      if (event.key !== STORAGE_KEY) return;
+      const reloaded = loadWords();
+      this.#words = reloaded ?? [];
+      this.#saveOk = true;
+      for (const listener of this.#subscribers) listener(this);
+    });
   }
 
   /** @returns {Array} a shallow copy so callers can't mutate state directly. */

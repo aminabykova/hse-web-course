@@ -5,7 +5,7 @@
   screens are shown from application state. A hash looks like
   `#word-detail/<id>`: a screen id and an optional parameter. Parsing is
   guarded (decodeURIComponent in try/catch) so a malformed hash resolves to
-  the default screen instead of throwing (criterion: guarded decoding).
+  the default screen instead of throwing.
 */
 
 import { qsa } from './dom.js';

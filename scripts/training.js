@@ -34,6 +34,9 @@ const HINT_BG = {
   pink: '--pink',
 };
 
+/** Hint backgrounds dark enough to need the chrome inverted to white. */
+const HINT_DARK = new Set(['black']);
+
 /** @type {null | object} the live quiz session. */
 let session = null;
 
@@ -126,6 +129,7 @@ function buildQuestions({ direction, mode, count }) {
 
 function applyHintBackground(colorId) {
   document.body.style.background = colorId && HINT_BG[colorId] ? `var(${HINT_BG[colorId]})` : '';
+  document.body.classList.toggle('hint-dark', HINT_DARK.has(colorId));
 }
 
 /* ------------------------------------------------------------------ */
@@ -359,6 +363,10 @@ function checkAnswer() {
   else if (transition === 'dusted') session.transitions.dusted.push(question.word);
 
   renderQuestion();
+
+  // The re-render replaces the Check button, leaving focus on nothing —
+  // move it to the primary action so Enter/Space goes straight to Next.
+  qs('#quiz-root .quiz-actions .button-primary')?.focus();
 }
 
 function nextQuestion() {

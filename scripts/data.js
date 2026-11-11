@@ -1,11 +1,10 @@
 /*
   FabVocab — seed data and shared constants.
 
-  This module is the "model" source of content (criterion: data in JS
-  structures). It exports the eight word colors, the parts of speech, the
-  learning statuses, the copy used for quiz feedback, and a seed dictionary
-  built from the owner's real word list. Everything downstream (store, pages)
-  is a projection of these structures.
+  This module is the "model" source of content. It exports the eight word
+  colors, the parts of speech, the learning statuses, the copy used for quiz
+  feedback, and a seed dictionary built from the owner's real word list.
+  Everything downstream (store, pages) is a projection of these structures.
 */
 
 /** The eight synesthetic word colors. Keys match the CSS `.color-*` classes. */
