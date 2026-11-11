@@ -270,9 +270,37 @@ label:has(input:focus-visible) {
   line-height: 16px;
 }
 
-.hint-screen .word-category {
+/* Once revealed (hint or feedback), the badge keeps the same black look —
+   checking an answer must not recolor it. */
+
+.hint-screen .word-category,
+.feedback-screen .word-category {
   background: var(--ink);
   color: var(--paper);
+}
+
+/* Black color hint: the whole screen turns ink — invert the surrounding
+   chrome to paper, same idea as the dark word cards in the Dictionary.
+   The class is toggled on <body> by applyHintBackground. */
+
+.hint-dark .mobile-title,
+.hint-dark .training-screen > h1,
+.hint-dark .quiz-instruction,
+.hint-dark .quiz-progress-label {
+  color: var(--paper);
+}
+
+.hint-dark .progress-segments i.filled {
+  background: var(--paper);
+}
+
+.hint-dark .quiz-actions .button-primary {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.hint-dark label:has(input:focus-visible) {
+  outline-color: var(--paper);
 }
 
 /* Answer options */

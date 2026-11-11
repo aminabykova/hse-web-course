@@ -3,9 +3,9 @@
 
   Small helpers for building and querying the DOM safely. Every piece of
   text goes in through `textContent` (never `innerHTML`), so user-entered
-  words, definitions and examples can never be interpreted as markup
-  (criterion: safe HTML insertion / XSS). Query helpers null-check so a
-  missing element degrades gracefully instead of throwing.
+  words, definitions and examples can never be interpreted as markup.
+  Query helpers null-check so a missing element degrades gracefully instead
+  of throwing.
 */
 
 /**
